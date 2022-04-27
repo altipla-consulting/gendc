@@ -12,4 +12,4 @@ test:
 gofmt:
 	@gofmt -s -w $(FILES)
 	@gofmt -r '&α{} -> new(α)' -w $(FILES)
-	@impsort cmd -p github.com/altipla-consulting/gendc
+	@impsort . -p github.com/altipla-consulting/gendc
