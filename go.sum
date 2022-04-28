@@ -185,3 +185,5 @@ honnef.co/go/tools v0.0.0-20190102054323-c2f93a96b099/go.mod h1:rf3lG4BRIbNafJWh
 honnef.co/go/tools v0.0.0-20190523083050-ea95bdfd59fc/go.mod h1:rf3lG4BRIbNafJWhAfAdb/ePZxsR/4RtNHQocxwk9r4=
 libs.altipla.consulting v1.104.0 h1:ZDmVrVq7rbFSXhI3tqvoRpDPPtJrItcNsZn7l+hg9ks=
 libs.altipla.consulting v1.104.0/go.mod h1:c6sF5WLZA+z2CkngcsxT1qaUx5Y8cbGEgSkXtAKr9lM=
+libs.altipla.consulting v1.105.0 h1:CNZ2Pe5aKzL2mFeFSIX/lU42T+jQGtq1cUqAEF5JS7g=
+libs.altipla.consulting v1.105.0/go.mod h1:c6sF5WLZA+z2CkngcsxT1qaUx5Y8cbGEgSkXtAKr9lM=

@@ -6,7 +6,7 @@ require (
 	github.com/hashicorp/hcl/v2 v2.12.0
 	github.com/kyokomi/emoji/v2 v2.2.9
 	github.com/sirupsen/logrus v1.8.1
-	libs.altipla.consulting v1.104.0
+	libs.altipla.consulting v1.105.0
 )
 
 require (

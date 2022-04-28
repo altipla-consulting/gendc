@@ -12,6 +12,7 @@ import (
 	"github.com/kyokomi/emoji/v2"
 	log "github.com/sirupsen/logrus"
 	"libs.altipla.consulting/collections"
+	"libs.altipla.consulting/env"
 	"libs.altipla.consulting/errors"
 )
 
@@ -55,8 +56,10 @@ func run() error {
 	if err := os.MkdirAll("tmp/gendc", 0700); err != nil {
 		return errors.Trace(err)
 	}
-	if err := createCerts(); err != nil {
-		return errors.Trace(err)
+	if !env.IsCI() {
+		if err := createCerts(); err != nil {
+			return errors.Trace(err)
+		}
 	}
 	if err := writeDockerCompose(settings); err != nil {
 		return errors.Trace(err)
