@@ -182,7 +182,6 @@ func writeDockerCompose(settings *configFile) error {
 			Volumes: []string{
 				sshAuthSockEnv + ":" + sshAuthSockEnv,
 				".:/workspace",
-				home + "/.config/vite-config:/home/container/.config/vite-config",
 			},
 			User:       os.Getenv("USR_ID") + ":" + os.Getenv("GRP_ID"),
 			WorkingDir: "/workspace",
