@@ -123,6 +123,17 @@ func writeDockerCompose(settings *configFile) error {
 				},
 			}
 
+		case "postgresql":
+			dc.Services["postgresql"] = &dcService{
+				Image: "postgres:14",
+				Ports: []string{"5432:5432"},
+				Env: map[string]string{
+					"POSTGRES_USER":     "local",
+					"POSTGRES_PASSWORD": "development",
+					"POSTGRES_DB":       "local",
+				},
+			}
+
 		default:
 			return errors.Errorf("unknown service: %s", service)
 		}
