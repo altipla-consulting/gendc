@@ -134,6 +134,16 @@ func writeDockerCompose(settings *configFile) error {
 				},
 			}
 
+		case "sqlserver":
+			dc.Services["sqlserver"] = &dcService{
+				Image: "mcr.microsoft.com/mssql/server:2019-latest",
+				Ports: []string{"1433:1433"},
+				Env: map[string]string{
+					"ACCEPT_EULA": "Y",
+					"SA_PASSWORD": "DevPassword7!",
+				},
+			}
+
 		default:
 			return errors.Errorf("unknown service: %s", service)
 		}
