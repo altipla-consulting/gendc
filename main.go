@@ -175,7 +175,7 @@ func writeDockerCompose(settings *configFile) error {
 		}
 
 		dc.Services[app.Name] = &dcService{
-			Image:   "eu.gcr.io/altipla-tools/go:latest",
+			Image:   "europe-west1-docker.pkg.dev/altipla-tools/devcontainers/go:latest",
 			Command: []string{"/usr/local/bin/reloader", "run", ".", "-r", "-e", ".pbtext,.yml,.yaml", "-w", "../pkg", "-w", "../internal", "-w", "../protos"},
 			Env:     env,
 			Volumes: []string{
@@ -195,7 +195,7 @@ func writeDockerCompose(settings *configFile) error {
 
 	for _, js := range settings.JS {
 		dc.Services[js.Name] = &dcService{
-			Image:   "eu.gcr.io/altipla-tools/node:latest",
+			Image:   "europe-west1-docker.pkg.dev/altipla-tools/devcontainers/node:latest",
 			Command: []string{"npm", "start"},
 			Env: map[string]string{
 				"SSH_AUTH_SOCK": sshAuthSockEnv,
