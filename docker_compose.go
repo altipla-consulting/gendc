@@ -3,7 +3,6 @@ package main
 import "fmt"
 
 type dcFile struct {
-	Version  string                `json:"version"`
 	Services map[string]*dcService `json:"services"`
 }
 

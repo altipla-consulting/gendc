@@ -95,7 +95,6 @@ func writeDockerCompose(settings *configFile) error {
 	log.Println("Generating docker-compose.yml file")
 
 	dc := &dcFile{
-		Version:  "3.7",
 		Services: make(map[string]*dcService),
 	}
 
