@@ -143,6 +143,18 @@ func writeDockerCompose(settings *configFile) error {
 				},
 			}
 
+		case "mysql":
+			dc.Services["mysql"] = &dcService{
+				Image: "mysql:8.0",
+				Ports: []string{"3306:3306"},
+				Env: map[string]string{
+					"MYSQL_ROOT_PASSWORD": "rootmysql",
+					"MYSQL_USER":          "local",
+					"MYSQL_PASSWORD":      "development",
+					"MYSQL_DATABASE":      "local",
+				},
+			}
+
 		default:
 			return errors.Errorf("unknown service: %s", service)
 		}
