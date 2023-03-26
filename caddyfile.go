@@ -52,6 +52,18 @@ var tmplCaddyfile = template.Must(template.New("caddyfile").Parse(
 }
 {{end}}
 
+{{range .TS}}
+{{.Name}}.dev.localhost {
+	reverse_proxy {{.Name}}:{{.Port}}
+	tls /opt/tls/cert.pem /opt/tls/key.pem
+}
+
+{{.Name}}.dev.remote {
+	reverse_proxy {{.Name}}:{{.Port}}
+	tls /opt/tls/cert.pem /opt/tls/key.pem
+}
+{{end}}
+
 :80 {
 	respond 404
 }

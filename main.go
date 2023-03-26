@@ -26,6 +26,7 @@ type configFile struct {
 	Services []string     `hcl:"services,optional"`
 	Apps     []*configApp `hcl:"app,block"`
 	JS       []*configJS  `hcl:"js,block"`
+	TS       []*configTS  `hcl:"ts,block"`
 }
 
 type configApp struct {
@@ -39,6 +40,12 @@ type configApp struct {
 type configJS struct {
 	Name      string   `hcl:"name,label"`
 	DependsOn []string `hcl:"depends_on,optional"`
+}
+
+type configTS struct {
+	Name      string   `hcl:"name,label"`
+	DependsOn []string `hcl:"depends_on,optional"`
+	Port      int64    `hcl:"port"`
 }
 
 func run() error {
@@ -218,6 +225,23 @@ func writeDockerCompose(settings *configFile) error {
 			User:       os.Getenv("USR_ID") + ":" + os.Getenv("GRP_ID"),
 			WorkingDir: "/workspace",
 			DependsOn:  js.DependsOn,
+		}
+	}
+
+	for _, ts := range settings.TS {
+		dc.Services[ts.Name] = &dcService{
+			Image:   "europe-west1-docker.pkg.dev/altipla-tools/devcontainers/node:latest",
+			Command: []string{"npm", "run", "dev:" + ts.Name},
+			Env: map[string]string{
+				"SSH_AUTH_SOCK": sshAuthSockEnv,
+			},
+			Volumes: []string{
+				sshAuthSockEnv + ":" + sshAuthSockEnv,
+				".:/workspace",
+			},
+			User:       os.Getenv("USR_ID") + ":" + os.Getenv("GRP_ID"),
+			WorkingDir: "/workspace",
+			DependsOn:  ts.DependsOn,
 		}
 	}
 
