@@ -196,9 +196,19 @@ func writeDockerCompose(settings *configFile) error {
 		}
 
 		dc.Services[app.Name] = &dcService{
-			Image:   "europe-west1-docker.pkg.dev/altipla-tools/devcontainers/go:latest",
-			Command: []string{"/usr/local/bin/reloader", "run", ".", "-r", "-e", ".pbtext,.yml,.yaml", "-w", "../pkg", "-w", "../internal", "-w", "../protos"},
-			Env:     env,
+			Image: "europe-west1-docker.pkg.dev/altipla-tools/devcontainers/go:latest",
+			Command: []string{
+				"/usr/local/bin/reloader",
+				"run",
+				".",
+				"-r",
+				"-e", ".pbtext,.yml,.yaml,.hcl,.json",
+				"-w", "../pkg",
+				"-w", "../internal",
+				"-w", "../protos",
+				"-w", "../gen",
+			},
+			Env: env,
 			Volumes: []string{
 				sshAuthSockEnv + ":" + sshAuthSockEnv,
 				".:/workspace",
