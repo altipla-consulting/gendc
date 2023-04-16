@@ -11,6 +11,7 @@ import (
 	"github.com/hashicorp/hcl/v2/hclsimple"
 	"github.com/kyokomi/emoji/v2"
 	log "github.com/sirupsen/logrus"
+	"golang.org/x/exp/slices"
 	"libs.altipla.consulting/collections"
 	"libs.altipla.consulting/env"
 	"libs.altipla.consulting/errors"
@@ -181,8 +182,10 @@ func writeDockerCompose(settings *configFile) error {
 	for _, app := range settings.Apps {
 		env := map[string]string{
 			"SSH_AUTH_SOCK": sshAuthSockEnv,
-			"LOCAL_RAVENDB": "http://ravendb:8080",
 			"K_SERVICE":     app.Name,
+		}
+		if slices.Contains(settings.Services, "ravendb") {
+			env["LOCAL_RAVENDB"] = "http://ravendb:8080"
 		}
 		for k, v := range app.Env {
 			env[k] = v
