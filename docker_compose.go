@@ -16,6 +16,7 @@ type dcService struct {
 	User       string            `json:"user,omitempty"`
 	WorkingDir string            `json:"working_dir,omitempty"`
 	DependsOn  []string          `json:"depends_on,omitempty"`
+	EnvFile    []string          `json:"env_file,omitempty"`
 }
 
 func (svc *dcService) ExposePort(port int) {
