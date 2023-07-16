@@ -178,6 +178,14 @@ func writeDockerCompose(settings *configFile) error {
 	if err != nil {
 		return errors.Trace(err)
 	}
+
+	var upInternalExists bool
+	if _, err := os.Stat("../internal"); err != nil && !os.IsNotExist(err) {
+		return errors.Trace(err)
+	} else if err == nil {
+		upInternalExists = true
+	}
+
 	const sshAuthSockEnv = "${SSH_AUTH_SOCK:?Missing SSH_AUTH_SOCK}"
 	for _, app := range settings.Apps {
 		env := map[string]string{
@@ -204,7 +212,6 @@ func writeDockerCompose(settings *configFile) error {
 				"-r",
 				"-e", ".pbtext,.yml,.yaml,.hcl,.json",
 				"-w", "../pkg",
-				"-w", "../internal",
 				"-w", "../protos",
 				"-w", "../gen",
 			},
@@ -221,6 +228,9 @@ func writeDockerCompose(settings *configFile) error {
 			User:       os.Getenv("USR_ID") + ":" + os.Getenv("GRP_ID"),
 			WorkingDir: "/workspace/" + app.Source,
 			DependsOn:  app.DependsOn,
+		}
+		if upInternalExists {
+			dc.Services[app.Name].Command = append(dc.Services[app.Name].Command, "-w", "../internal")
 		}
 	}
 
