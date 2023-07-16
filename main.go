@@ -179,11 +179,16 @@ func writeDockerCompose(settings *configFile) error {
 		return errors.Trace(err)
 	}
 
-	var upInternalExists bool
+	var hasInternal, hasPkg bool
 	if _, err := os.Stat("../internal"); err != nil && !os.IsNotExist(err) {
 		return errors.Trace(err)
 	} else if err == nil {
-		upInternalExists = true
+		hasInternal = true
+	}
+	if _, err := os.Stat("../pkg"); err != nil && !os.IsNotExist(err) {
+		return errors.Trace(err)
+	} else if err == nil {
+		hasPkg = true
 	}
 
 	const sshAuthSockEnv = "${SSH_AUTH_SOCK:?Missing SSH_AUTH_SOCK}"
@@ -211,7 +216,6 @@ func writeDockerCompose(settings *configFile) error {
 				".",
 				"-r",
 				"-e", ".pbtext,.yml,.yaml,.hcl,.json",
-				"-w", "../pkg",
 				"-w", "../protos",
 				"-w", "../gen",
 			},
@@ -229,8 +233,11 @@ func writeDockerCompose(settings *configFile) error {
 			WorkingDir: "/workspace/" + app.Source,
 			DependsOn:  app.DependsOn,
 		}
-		if upInternalExists {
+		if hasInternal {
 			dc.Services[app.Name].Command = append(dc.Services[app.Name].Command, "-w", "../internal")
+		}
+		if hasPkg {
+			dc.Services[app.Name].Command = append(dc.Services[app.Name].Command, "-w", "../pkg")
 		}
 	}
 
